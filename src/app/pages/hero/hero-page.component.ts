@@ -1,7 +1,9 @@
-import { ChangeDetectionStrategy, Component, signal } from "@angular/core"
+import { UpperCasePipe } from "@angular/common";
+import { ChangeDetectionStrategy, Component, computed, signal } from "@angular/core"
 
 @Component({
   templateUrl: './hero-page.component.html',
+  imports: [ UpperCasePipe],
   styleUrls: ['./hero-page.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -9,6 +11,15 @@ import { ChangeDetectionStrategy, Component, signal } from "@angular/core"
 export class HeroPageComponent {
   public name = signal('Ironman');
   public age = signal(45);
+
+  heroDescription = computed(() => {
+    const description = `${this.name()} - ${this.age()}`;
+    return description;
+  });
+
+  capitalizedName = computed(() => {
+    return this.name().toUpperCase();
+  });
 
   public getHeroDescription(): string {
     return `${this.name()} - ${this.age()}`;
