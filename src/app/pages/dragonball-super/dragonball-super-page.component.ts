@@ -1,5 +1,6 @@
 import { Component, computed, signal } from "@angular/core"
 import { CharacterList } from "../../components/shared/dragonball/character-list/character-list";
+import { CharacterAdd } from "../../components/shared/dragonball/character-add/character-add";
 
 interface Character {
   id: number;
@@ -10,7 +11,7 @@ interface Character {
 @Component({
   templateUrl: './dragonball-super-page.component.html',
   selector: 'dragonball-super',
-  imports: [CharacterList],
+  imports: [CharacterList, CharacterAdd],
 })
 
 export class DragonballSuperPageComponent {
@@ -27,15 +28,8 @@ export class DragonballSuperPageComponent {
     return  { 'text-danger': true };
   });
 
-  addCharacter() {
-    if( !this.name() || !this.power || this.power() <= 0 ) return;
-    const newCharacter: Character = {
-      id: this.characters().length + 1,
-      name: this.name(),
-      power: this.power()
-    };
-    this.characters.update((current) => [...current, newCharacter]);
-    this.resetFields();
+  addCharacter(character: Character) {
+    this.characters.update((current) => [...current, character]);
   }
 
   resetFields() {
